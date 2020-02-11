@@ -1,6 +1,5 @@
 import { fromEvent, merge } from 'rxjs'
-import { map, takeUntil, repeat, flatMap, distinct, distinctUntilChanged } from 'rxjs/operators'
-import { equals, pipe, prop, pair } from 'ramda'
+import { distinctUntilChanged } from 'rxjs/operators'
 
 export const windowKeyDown$ = fromEvent<KeyboardEvent>(
   window,
@@ -17,7 +16,5 @@ export const windowKeyPress$ = merge(
   windowKeyUp$,
 )
   .pipe(
-    distinctUntilChanged(
-      (p, q) => p.type === q.type && p.key === q.key
-    ),
+    distinctUntilChanged((p, q) => p.type === q.type && p.key === q.key),
   )

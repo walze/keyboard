@@ -1,5 +1,5 @@
 
-import { PolySynth, DuoSynth, Synth, Reverb } from 'tone'
+import { PolySynth, DuoSynth, Synth, Reverb, MonoSynth, AMSynth } from 'tone'
 
 import React, { useEffect } from 'react'
 import { compose } from 'ramda'
@@ -7,44 +7,42 @@ import { compose } from 'ramda'
 import { windowKeyPress$ } from '../observables'
 import { getKeyValue } from '../helpers'
 
-const getHz = (n: number) => 440 * Math.pow(2, n / 12)
+const getHz = (n: number) => 440 * Math.pow (2, n / 12)
 
-const synth = new PolySynth({
-  voice: Synth,
-  volume: -20,
+const synth = new PolySynth ({
+  voice: AMSynth,
+  volume: -10
 })
-  .chain(new Reverb(2))
-  .set({
+  .chain (new Reverb (2))
+  .set ({
     oscillator: {
-      type: "square"
-    },
+      type: 'triangle'
+    }
   })
-  .toMaster()
-
+  .toMaster ()
 
 const triggerSynth = (_synth: PolySynth) =>
   (n: number) =>
-    _synth.triggerAttack([n])
+    _synth.triggerAttack ([n])
 
 const releaseSynth = (_synth: PolySynth) =>
-  (n: number) => _synth.triggerRelease([n])
+  (n: number) => _synth.triggerRelease ([n])
 
-const emit = compose(triggerSynth(synth), getHz)
-const release = compose(releaseSynth(synth), getHz)
+const emit = compose (triggerSynth (synth), getHz)
+const release = compose (releaseSynth (synth), getHz)
+
 const App = () => {
-
-  useEffect(() => {
+  useEffect (() => {
     const sub = windowKeyPress$
-      .subscribe((e) => {
+      .subscribe ((e) => {
         const isDown = e.type === 'keydown'
+        const hz = getKeyValue (e.key)
+        if (hz <= -1) return
 
-        if (isDown)
-          emit(getKeyValue(e.key))
-        else
-          release(getKeyValue(e.key))
+        if (isDown) { emit (hz) } else { release (hz) }
       })
 
-    return () => sub.unsubscribe()
+    return () => sub.unsubscribe ()
   }, [])
 
   return (

@@ -1,14 +1,14 @@
 
 import React, { Suspense } from 'react'
 
-const App = React.lazy(() => import('./components/App'))
+const App = React.lazy (() => import ('./components/App'))
 
-const $app = document.querySelector('#app')
-if (!$app) throw new Error('no app element')
+const $app = document.querySelector ('#app')
+if (!$app) throw new Error ('no app element')
 
-import('react-dom')
-  .then(({ render }) => {
-    render(
+import ('react-dom')
+  .then (({ render }) => {
+    render (
       <Suspense fallback='loading...'>
         <App />
       </Suspense>,
