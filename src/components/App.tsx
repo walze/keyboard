@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { compose } from 'ramda'
 
 import { windowKeyPress$ } from '../observables'
-import { getKeyValue } from '../helpers'
+import { getKeyValue, keys, blacks } from '../helpers'
 
 const getHz = (n: number) => 440 * Math.pow (2, n / 12)
 
@@ -47,7 +47,9 @@ const App = () => {
 
   return (
     <div>
-      press any key
+      {keys.map ((key, i) => (
+        <span key={key} data-color={blacks.includes (i) ? 'black' : 'white'}>key: {key}</span>
+      ))}
     </div>
   )
 }
