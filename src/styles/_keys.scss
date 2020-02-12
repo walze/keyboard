@@ -11,6 +11,7 @@
   height: 150px;
 
   display: inline-block;
+  background-color: white;
   border: 1px solid black;
   border-radius: 3px;
 
@@ -22,12 +23,12 @@
     justify-content: center;
     align-items: center;
 
-    font-size: .9rem;
+    font-size: 0.9rem;
 
     z-index: 3;
   }
 
-  &[data-color="black"] {
+  &--black {
     background-color: black;
     color: white;
 
@@ -40,15 +41,11 @@
     z-index: 2;
   }
 
-  &[data-color="white"] {
-    background-color: white;
-  }
-
-  &[data-color="black"].active {
+  &--black.active {
     box-shadow: inset 0px -9px 24px -2px rgba(255, 255, 255, 0.476);
   }
 
-  &[data-color="white"].active {
+  &.active:not(#{&}--black) {
     box-shadow: inset 0px -9px 24px -2px rgba(0, 0, 0, 0.276);
   }
 }

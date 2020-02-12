@@ -10,6 +10,6 @@ export const keys = pipe (
 export const blacks = [1, 3, 6, 8, 10]
 export const whites = [0, 2, 4, 5, 7, 9, 11, 12]
 
-export const getKeyValue = memoizeWith (identity, (k: string) => {
+export const getKeyIndex = memoizeWith (identity, (k: string) => {
   return indexOf (k.toUpperCase (), keys)
 })

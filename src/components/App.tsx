@@ -5,7 +5,7 @@ import React, { useEffect, lazy } from 'react'
 import { compose } from 'ramda'
 
 import { windowKeyPress$ } from '../observables'
-import { getKeyValue, keys } from '../helpers'
+import { getKeyIndex, keys } from '../helpers'
 
 const Key = lazy (() => import ('./Key'))
 
@@ -38,10 +38,10 @@ const App = () => {
     const sub = windowKeyPress$
       .subscribe ((e) => {
         const isDown = e.type === 'keydown'
-        const hz = getKeyValue (e.key)
-        if (hz <= -1) return
+        const index = getKeyIndex (e.key)
+        if (index <= -1) return
 
-        if (isDown) { emit (hz) } else { release (hz) }
+        if (isDown) { emit (index) } else { release (index) }
       })
 
     return () => sub.unsubscribe ()
