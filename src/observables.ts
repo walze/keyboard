@@ -1,4 +1,4 @@
-import { fromEvent, merge } from 'rxjs'
+import { fromEvent, merge, Subject } from 'rxjs'
 import { distinctUntilChanged } from 'rxjs/operators'
 
 export const windowKeyDown$ = fromEvent<KeyboardEvent> (
@@ -18,3 +18,11 @@ export const windowKeyPress$ = merge (
   .pipe (
     distinctUntilChanged ((p, q) => p.type === q.type && p.key === q.key)
   )
+
+interface KeyPressEvent extends Partial<KeyboardEvent> {
+  key: string;
+  type: string;
+}
+
+export const keyPress$ = new Subject<KeyPressEvent> ()
+windowKeyPress$.subscribe (keyPress$.next.bind (keyPress$))

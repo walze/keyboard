@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useState, useEffect } from 'react'
 import { blacks } from '../helpers'
-import { windowKeyPress$ } from '../observables'
+import { keyPress$ } from '../observables'
 
 const Key: FunctionComponent<{ id: number; note: string }> = ({ id, note }) => {
   const [active, setActive] = useState ('')
@@ -8,8 +8,26 @@ const Key: FunctionComponent<{ id: number; note: string }> = ({ id, note }) => {
   const activate = () => setActive ('active')
   const deactivate = () => setActive ('')
 
-  windowKeyPress$
-    .subscribe (e => {
+  const mup = () => {
+    deactivate ()
+
+    keyPress$.next ({
+      key: note,
+      type: 'keyup'
+    })
+  }
+
+  const mdown = () => {
+    activate ()
+
+    keyPress$.next ({
+      key: note,
+      type: 'keydown'
+    })
+  }
+
+  useEffect (() => {
+    const sub = keyPress$.subscribe (e => {
       const k = e.key.toUpperCase ()
       if (k !== note) return
 
@@ -20,10 +38,15 @@ const Key: FunctionComponent<{ id: number; note: string }> = ({ id, note }) => {
         : deactivate ()
     })
 
+    return () => {
+      sub.unsubscribe ()
+    }
+  }, [])
+
   return (
     <div
-      onMouseUp={deactivate}
-      onMouseDown={activate}
+      onMouseUp={mup}
+      onMouseDown={mdown}
       className={`key key--${blacks.includes (id % 12) ? 'black' : ''} ${active}`}
     >
       <span className='key__text'>

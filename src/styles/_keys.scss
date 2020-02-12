@@ -26,6 +26,9 @@
     font-size: 0.9rem;
 
     z-index: 3;
+
+    pointer-events: none;
+    user-select: none;
   }
 
   &--black {
