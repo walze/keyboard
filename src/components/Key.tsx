@@ -45,8 +45,10 @@ const Key: FunctionComponent<{ id: number; note: string }> = ({ id, note }) => {
 
   return (
     <div
-      onMouseUp={mup}
       onMouseDown={mdown}
+      onMouseUp={mup}
+      onTouchStart={mdown}
+      onTouchEnd={mup}
       className={`key key--${blacks.includes (id % 12) ? 'black' : ''} ${active}`}
     >
       <span className='key__text'>
