@@ -1,20 +1,20 @@
 import { fromEvent, merge } from 'rxjs'
 import { distinctUntilChanged } from 'rxjs/operators'
 
-export const windowKeyDown$ = fromEvent<KeyboardEvent>(
+export const windowKeyDown$ = fromEvent<KeyboardEvent> (
   window,
   'keydown'
 )
 
-export const windowKeyUp$ = fromEvent<KeyboardEvent>(
+export const windowKeyUp$ = fromEvent<KeyboardEvent> (
   window,
   'keyup'
 )
 
-export const windowKeyPress$ = merge(
+export const windowKeyPress$ = merge (
   windowKeyDown$,
-  windowKeyUp$,
+  windowKeyUp$
 )
-  .pipe(
-    distinctUntilChanged((p, q) => p.type === q.type && p.key === q.key),
+  .pipe (
+    distinctUntilChanged ((p, q) => p.type === q.type && p.key === q.key)
   )

@@ -1,11 +1,13 @@
 
-import { PolySynth, DuoSynth, Synth, Reverb, MonoSynth, AMSynth } from 'tone'
+import { PolySynth, Reverb, AMSynth } from 'tone'
 
-import React, { useEffect, useState, FunctionComponent } from 'react'
-import { compose, props } from 'ramda'
+import React, { useEffect, lazy } from 'react'
+import { compose } from 'ramda'
 
 import { windowKeyPress$ } from '../observables'
-import { getKeyValue, keys, blacks } from '../helpers'
+import { getKeyValue, keys } from '../helpers'
+
+const Key = lazy (() => import ('./Key'))
 
 const getHz = (n: number) => 440 * Math.pow (2, n / 12)
 
@@ -30,27 +32,6 @@ const releaseSynth = (_synth: PolySynth) =>
 
 const emit = compose (triggerSynth (synth), getHz)
 const release = compose (releaseSynth (synth), getHz)
-
-const Key: FunctionComponent<{ id: number; note: string }> = ({ id, note }) => {
-  const [active, setActive] = useState ('')
-
-  const activate = () => setActive ('active')
-  const deactivate = () => setActive ('')
-
-  return (
-    <div
-      onMouseUp={deactivate}
-      onMouseDown={activate}
-      className={`key ${active}`}
-      data-color={blacks.includes (id % 12) ? 'black' : 'white'}
-      data-note={note}
-    >
-      <span className='key__text'>
-        {note}
-      </span>
-    </div>
-  )
-}
 
 const App = () => {
   useEffect (() => {

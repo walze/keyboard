@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html --no-cache",
-    "build": "parcel build src/index.html --no-cache --out-dir ./docs --no-source-maps --public-url ."
+    "build": "parcel build src/index.html --no-cache --out-dir ./docs --no-source-maps --public-url . --detailed-report"
   },
   "author": "Wallace Fares",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "@types/ramda": "^0.26.41",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
