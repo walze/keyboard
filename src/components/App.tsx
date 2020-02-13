@@ -1,5 +1,5 @@
 
-import { PolySynth, Reverb, AMSynth } from 'tone'
+import { PolySynth, Reverb, FMSynth } from 'tone'
 
 import React, { useEffect, lazy } from 'react'
 import { compose } from 'ramda'
@@ -12,8 +12,7 @@ const Key = lazy (() => import ('./Key'))
 const getHz = (n: number) => 440 * Math.pow (2, (n - 9) / 12)
 
 const synth = new PolySynth ({
-  voice: AMSynth,
-  volume: -10
+  voice: FMSynth
 })
   .chain (new Reverb (2))
   .set ({
